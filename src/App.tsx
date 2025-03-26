@@ -1,16 +1,37 @@
-import './App.less'
-import Layout from './Layout/Layout'
+import "./App.less";
+import Layout from "./Layout/Layout";
+import ButtonComponent from "./Component/Button";
+import { useEffect, useId, useState, useDeferredValue } from "react";
 
 function App() {
+  const id = useId();
+  const [width, setWidth] = useState<number>(0);
+  const deferredWidth = useDeferredValue(width);
+  useEffect(() => {
+    const target = document.getElementById(id);
+    // 创建 ResizeObserver 实例
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width } = entry.contentRect;
+        setWidth(width);
+      }
+    });
+    // 开始监听目标元素
+    if (target) {
+      observer.observe(target);
+    }
+  }, [id]);
   return (
-    <div className='gld-area'>
-      <div className='gld-area-left gld-area-part'>left part</div>
-      <div className='gld-area-main gld-area-part'>
-        <Layout />
+    <div className="gld-area">
+      <div className="gld-area-left gld-area-part">
+        <ButtonComponent />
       </div>
-      <div className='gld-area-right gld-area-part'>right part</div>
+      <div className="gld-area-main gld-area-part" id={id}>
+        <Layout width={deferredWidth} />
+      </div>
+      <div className="gld-area-right gld-area-part">right part</div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
