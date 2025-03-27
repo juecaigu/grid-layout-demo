@@ -6,8 +6,8 @@ import CustomeDragLayer from "../DragLayout/CustomeDragLayer";
 const Block: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [{ isDragging }, drag, dragPreview] = useDrag({
-    type: "div",
-    item: { type: "div", itemName: "block" },
+    type: "block",
+    item: { type: "block", itemName: "block" },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),

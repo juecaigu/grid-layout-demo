@@ -1,37 +1,38 @@
 import GridLayout from "react-grid-layout";
-import React from "react";
+import type { Layout } from "react-grid-layout";
+import { useDrop } from "react-dnd";
+import React, { useRef, useState } from "react";
 import "./Layout.less";
 
 const Layout = (props: { width: number }) => {
   const { width } = props;
-  const layout = [
-    { i: "a", x: 0, y: 0, w: 1, h: 3, static: true },
-    { i: "b", x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4, minH: 2, maxH: 4 },
-    { i: "c", x: 4, y: 0, w: 8, h: 2 },
-  ];
-
+  const [layout, setLayout] = useState<Layout[]>([]);
+  const gridLayoutRef = useRef(null);
+  const [, drop] = useDrop({
+    accept: "block",
+    drop: (item) => {
+      console.log("itme", item);
+    },
+    hover: (item, monitor) => {
+      const initPos = monitor.getInitialClientOffset() || { x: 0, y: 0 }; // 在列表中的初始位置
+      const delta = monitor.getDifferenceFromInitialOffset() || { x: 0, y: 0 }; // 拖动放置之后的偏移量
+      console.log("hover", initPos?.x + delta?.x, delta.y + initPos.y);
+    },
+  });
   return (
-    <GridLayout
-      className="layout"
-      layout={layout}
-      cols={12}
-      rowHeight={100}
-      width={width}
-      onDropDragOver={(args) => {
-        console.log("123456", args);
-        return { w: 100, h: 100 };
-      }}
-    >
-      <div key="a" className="gld-item">
-        a
-      </div>
-      <div key="b" className="gld-item">
-        b
-      </div>
-      <div key="c" className="gld-item">
-        c
-      </div>
-    </GridLayout>
+    <div className="rgl-target-canvas" ref={drop}>
+      <GridLayout
+        ref={gridLayoutRef.current}
+        className="layout"
+        layout={layout}
+        cols={12}
+        rowHeight={100}
+        width={width}
+        onDrop={(item) => {
+          console.log("item", item);
+        }}
+      ></GridLayout>
+    </div>
   );
 };
 
