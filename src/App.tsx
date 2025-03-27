@@ -1,7 +1,9 @@
 import "./App.less";
 import Layout from "./Layout/Layout";
-import ButtonComponent from "./Component/Button";
+import BlockComponent from "./Component/Block";
 import { useEffect, useId, useState, useDeferredValue } from "react";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 
 function App() {
   const id = useId();
@@ -22,15 +24,17 @@ function App() {
     }
   }, [id]);
   return (
-    <div className="gld-area">
-      <div className="gld-area-left gld-area-part">
-        <ButtonComponent />
+    <DndProvider backend={HTML5Backend}>
+      <div className="gld-area">
+        <div className="gld-area-left gld-area-part">
+          <BlockComponent />
+        </div>
+        <div className="gld-area-main gld-area-part" id={id}>
+          <Layout width={deferredWidth} />
+        </div>
+        <div className="gld-area-right gld-area-part">right part</div>
       </div>
-      <div className="gld-area-main gld-area-part" id={id}>
-        <Layout width={deferredWidth} />
-      </div>
-      <div className="gld-area-right gld-area-part">right part</div>
-    </div>
+    </DndProvider>
   );
 }
 

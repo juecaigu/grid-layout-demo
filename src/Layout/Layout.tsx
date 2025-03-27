@@ -17,6 +17,10 @@ const Layout = (props: { width: number }) => {
       cols={12}
       rowHeight={100}
       width={width}
+      onDropDragOver={(args) => {
+        console.log("123456", args);
+        return { w: 100, h: 100 };
+      }}
     >
       <div key="a" className="gld-item">
         a
