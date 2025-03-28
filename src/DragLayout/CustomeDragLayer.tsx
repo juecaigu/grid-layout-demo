@@ -40,6 +40,7 @@ const CustomeDragLayer = () => {
         top: "0",
         left: "0",
         position: "fixed",
+        zIndex: "999",
       }}
     >
       <span>{item.itemName || "dragItem"}</span>

@@ -4,8 +4,7 @@ import { getEmptyImage } from "react-dnd-html5-backend";
 import CustomeDragLayer from "../DragLayout/CustomeDragLayer";
 
 const Block: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [{ isDragging }, drag, dragPreview] = useDrag({
+  const [, drag, dragPreview] = useDrag({
     type: "block",
     item: { type: "block", itemName: "block" },
     collect: (monitor) => ({
